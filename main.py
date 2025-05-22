@@ -1,26 +1,9 @@
-import requests
-from bs4 import BeautifulSoup
-import os
-import openai
-from flask import Flask, render_template, request, jsonify
-from flask_cors import CORS
+from openai import OpenAI  # 新增這行
 
-app = Flask(__name__)
-CORS(app)
+# 在 app = Flask(...) 與 CORS(app) 後面
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))  # 新版寫法
 
-# ✅ 正確抓取環境變數的方式（Replit Secrets 會用這個）
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
-scene_to_url = {
-    "別餓到了": "https://lordcat.net/archives/454",
-    "讀書好去處": "https://today.line.me/tw/v2/article/1DBvKoz",
-    "宵夜吃飽飽": "https://dpmm2021.pixnet.net/blog/post/161621317",
-    "小小點心": "https://www.juksy.com/article/120736"
-}
-
-@app.route("/")
-def index():
-    return render_template("index.html")
+# ...
 
 @app.route("/recommend", methods=["POST"])
 def recommend():
@@ -53,7 +36,7 @@ def recommend():
     )
 
     try:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": system_prompt},
@@ -65,6 +48,3 @@ def recommend():
         return jsonify({"reply": reply})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=3000, debug=True)
