@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>AI 美食推薦小工具</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>情境式 AI 美食推薦</h1>
+    <p class="subtitle">請選擇以下其中一種生活情境，AI 將根據真實資料推薦適合的店家：</p>
+    <div class="button-group">
+      <button onclick="fetchRecommendation('別餓到了')">別餓到了</button>
+      <button onclick="fetchRecommendation('讀書好去處')">讀書好去處</button>
+      <button onclick="fetchRecommendation('宵夜吃飽飽')">宵夜吃飽飽</button>
+      <button onclick="fetchRecommendation('小小點心')">小小點心</button>
+    </div>
+    <div class="result" id="output">請點選上方任一情境開始推薦！</div>
+  </div>
+  <div id="reward-section" style="display: none; margin-top: 30px; text-align: center;">
+    <button onclick="showReward()">我完成了！</button>
+    <div id="reward-area" style="margin-top: 20px;"></div>
+  </div>
+  <script src="/static/script.js"></script>
+</body>
+</html>
